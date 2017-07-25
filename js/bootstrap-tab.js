@@ -128,9 +128,13 @@
         //关闭tab事件
         this.$element.find(".nav-tabs li a i.closeable").each(function (index, item) {
             $(item).click(function () {
-                var href = $(this).parents("a").attr("href").substr(1);
+                var href = $(this).parents("a").attr("href").substring(1);
+                if(self.getCurrentTabId()==href){
+                    self.$element.find(".nav-tabs li:eq(0) a").tab("show");
+                }
                 $(this).parents("li").remove();
                 $("#" + href).remove();
+
             })
         });
 
@@ -138,6 +142,7 @@
 
     //新增一个tab页
     BaseTab.prototype.addTab=function (obj) {
+        var self=this;
         //nav-tab
         var ul_li = $(this.template.ul_li.format(obj.id, obj.text));
         //如果可关闭,插入关闭图标，并绑定关闭事件
@@ -157,7 +162,10 @@
 
         if(obj.closeable){
             this.$element.find(".nav-tabs li a[href='#" + obj.id + "'] i.closeable").click(function () {
-                var href = $(this).parents("a").attr("href").substr(1);
+                var href = $(this).parents("a").attr("href").substring(1);
+                if(self.getCurrentTabId()==href){
+                    self.$element.find(".nav-tabs li:eq(0) a").tab("show");
+                }
                 $(this).parents("li").remove();
                 $("#" + href).remove();
             })
@@ -165,6 +173,7 @@
 
         this.$element.find(".nav-tabs a[href='#" + obj.id + "']").tab("show");
     }
+
 
 
     //根据id设置活动tab页
