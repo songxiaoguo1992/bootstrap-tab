@@ -130,10 +130,53 @@
             $(item).click(function () {
                 var href = $(this).parents("a").attr("href").substr(1);
                 $(this).parents("li").remove();
-                $("#" + href).parent().remove();
+                $("#" + href).remove();
             })
         });
 
+    }
+
+    //新增一个tab页
+    BaseTab.prototype.addTab=function (obj) {
+        //nav-tab
+        var ul_li = $(this.template.ul_li.format(obj.id, obj.text));
+        //如果可关闭,插入关闭图标，并绑定关闭事件
+        if (obj.closeable) {
+            var ul_li_close = $(this.template.ul_li_close);
+
+            ul_li.find("a").append(ul_li_close);
+            ul_li.find("a").append("&nbsp;");
+        }
+
+        this.$element.find(".nav-tabs").append(ul_li);
+        //div-content
+        var div_content_panel = $(this.template.div_content_panel.format(obj.id));
+        this.$element.find(".tab-content").append(div_content_panel);
+        $("#" + obj.id).load(obj.url);
+        this.stateObj[obj.id] = true;
+
+        if(obj.closeable){
+            this.$element.find(".nav-tabs li a[href='#" + obj.id + "'] i.closeable").click(function () {
+                var href = $(this).parents("a").attr("href").substr(1);
+                $(this).parents("li").remove();
+                $("#" + href).remove();
+            })
+        }
+
+        this.$element.find(".nav-tabs a[href='#" + obj.id + "']").tab("show");
+    }
+
+
+    //根据id设置活动tab页
+    BaseTab.prototype.showTab=function (tabId) {
+        this.$element.find(".nav-tabs li a[href='#" + tabId + "']").tab("show");
+    }
+
+    //获取当前活动tab页的ID
+    BaseTab.prototype.getCurrentTabId=function () {
+        var href=this.$element.find(".nav-tabs li.active a").attr("href");
+        href=href.substring(1);
+        return href;
     }
 
 

@@ -21,7 +21,7 @@
             id: 'home',
             text: '百度一下',
             url: "tab_first.html",
-            closeable:true
+            closeable: true
         }, {
             id: 'admineap',
             text: 'AdminEAP',
@@ -30,10 +30,12 @@
             id: 'edit',
             text: '编辑人员',
             url: "tab_content.html",
-            closeable:true
+            closeable: true
         }],
-        showIndex:1,
-        loadAll:false
+        showIndex: 1,
+        loadAll: false
     })
+
+    $("#tabContainer").data("tabs").addTab({id: 'test', text: 'addTab', closeable: true, url: 'tab_content.html'})
 </script>
 </html>
